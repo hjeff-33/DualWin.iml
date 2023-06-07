@@ -54,6 +54,7 @@ public class Board {
     int Player3Pos = 0;
     int Player4Pos = 0;
     JButton[] LOCATION = {Start,R1C5,R1C4,R1C3,R1C2,R1C1,R2C1,R3C1,R3C2,R3C3,R3C4,R3C5,R3C6,R4C6,R5C6,R5C5,R5C4,R5C3,R5C2,End};
+    String[] BUTTONTEXT = {"Start", "←", "←", "←", "←", "↓", "↓", "→", "→", "→", "→", "→", "↓", "↓", "←", "←", "←", "←", "←", "End"};
     public Board() {
         Start.addActionListener(new ActionListener() {
             @Override
@@ -102,6 +103,7 @@ public class Board {
                     PlayerThreeTurn = false;
                     PlayerFourTurn = true;
                 }
+                ResetText();
                 PlayGame();
             }
         });
@@ -166,6 +168,11 @@ public class Board {
         LOCATION[LadderEnd1].setBackground(Color.BLUE);
         LOCATION[LadderStart1].setText("Ladder");
         LOCATION[LadderEnd1].setText("Ladder");
+
+        LOCATION[MiniGame1Spot].setBackground(Color.MAGENTA);
+        LOCATION[MiniGame2Spot].setBackground(Color.MAGENTA);
+        LOCATION[MiniGame1Spot].setText("Game");
+        LOCATION[MiniGame2Spot].setText("Game");
 
         if(Application.PLAYERS.length==2){
             Player1.setText("");
@@ -300,6 +307,13 @@ public class Board {
                 MiniGameTwo.MinitwoSetUp();
             }
             LOCATION[Player4Pos].setText(LOCATION[Player4Pos].getText()+"\n "+Application.PLAYERS[3]);
+        }
+    }
+    public void ResetText(){
+        for(int i = 0; i<LOCATION.length; i++){
+            if(Player1Pos != i || Player2Pos != i || Player3Pos != i || Player4Pos != i){
+                LOCATION[i].setText(BUTTONTEXT[i]);
+            }
         }
     }
 
