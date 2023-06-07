@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.Random;
 public class Board {
     private JPanel ViewBoard;
@@ -199,9 +200,6 @@ public class Board {
             LOCATION[Player1Pos].setText(Player1PosText.replaceAll(Application.PLAYERS[0], ""));
             LOCATION[Player1Pos].setText(Player1PosText);
             Player1Pos= Player1Pos+roll;
-            if(Player1Pos>LOCATION.length){
-                JOptionPane.showMessageDialog(null, "Player One Won!!!!!");
-            }
             if(Player1Pos == SnakeStart){
                 Player1Pos = SnakeEnd;
             }
