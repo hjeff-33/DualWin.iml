@@ -23,7 +23,7 @@ public class Application {
         addAnotherPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(PLAYERINDEX<4) {
+                if(PLAYERS.length<3) {
                     PLAYERS = GrowArray(PLAYERS);
                     PLAYERS[PLAYERINDEX] = NAME_ENTER.getText();
                     PLAYERINDEX++;
@@ -52,7 +52,7 @@ public class Application {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                    if(PLAYERINDEX<4) {
+                    if(PLAYERINDEX<3) {
                         PLAYERS = GrowArray(PLAYERS);
                         PLAYERS[PLAYERINDEX] = NAME_ENTER.getText();
                         PLAYERINDEX++;
