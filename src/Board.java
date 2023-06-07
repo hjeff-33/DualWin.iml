@@ -217,6 +217,9 @@ public class Board {
             if(Player1Pos == MiniGame1Spot){
                 MiniGameOne.Mini1Setup();
             }
+            if(Player1Pos == MiniGame2Spot){
+                MiniGameTwo.MinitwoSetUp();
+            }
             LOCATION[Player1Pos].setText(LOCATION[Player1Pos].getText()+"\n "+Application.PLAYERS[0]);
         }
         if(PlayerTwoTurn){
@@ -237,6 +240,12 @@ public class Board {
             }
             if(Player2Pos == LadderEnd1){
                 Player2Pos = LadderStart1;
+            }
+            if(Player2Pos == MiniGame1Spot){
+                MiniGameOne.Mini1Setup();
+            }
+            if(Player2Pos == MiniGame2Spot){
+                MiniGameTwo.MinitwoSetUp();
             }
             LOCATION[Player2Pos].setText(LOCATION[Player2Pos].getText()+"\n "+Application.PLAYERS[1]);
         }
@@ -259,6 +268,12 @@ public class Board {
             if(Player3Pos == LadderEnd1){
                 Player3Pos = LadderStart1;
             }
+            if(Player3Pos == MiniGame1Spot){
+                MiniGameOne.Mini1Setup();
+            }
+            if(Player3Pos == MiniGame2Spot){
+                MiniGameTwo.MinitwoSetUp();
+            }
             LOCATION[Player3Pos].setText(LOCATION[Player3Pos].getText()+"\n "+Application.PLAYERS[2]);
         }
         if(PlayerFourTurn){
@@ -279,6 +294,12 @@ public class Board {
             }
             if(Player4Pos == LadderEnd1){
                 Player4Pos = LadderStart1;
+            }
+            if(Player4Pos == MiniGame1Spot){
+                MiniGameOne.Mini1Setup();
+            }
+            if(Player4Pos == MiniGame2Spot){
+                MiniGameTwo.MinitwoSetUp();
             }
             LOCATION[Player4Pos].setText(LOCATION[Player4Pos].getText()+"\n "+Application.PLAYERS[3]);
         }

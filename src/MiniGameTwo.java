@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Random;
 
 public class MiniGameTwo {
@@ -13,6 +15,17 @@ public class MiniGameTwo {
     int tmp;
     String[] questions = {"1 + 3", "5 - 2", "4 * 6", "10 / 2", "8 + 2", "9 - 4", "7 * 3", "12 / 3", "6 + 9", "15 - 7", "2 * 5", "16 / 4", "8 + 7", "11 - 6", "3 * 4"};
     int[] questionsInt = {1 + 3, 5 - 2, 4 * 6, 10 / 2, 8 + 2, 9 - 4, 7 * 3, 12 / 3, 6 + 9, 15 - 7, 2 * 5, 16 / 4, 8 + 7, 11 - 6, 3 * 4};
+    static void MinitwoSetUp(){
+        JFrame inputFrame = new JFrame("Mini Game Two");
+        inputFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                inputFrame.setVisible(false); // Set frame to invisible when closing
+            }
+        });
+        inputFrame.setContentPane(new MiniGameTwo().MiniTwoPanel);
+        inputFrame.setSize(720, 720);
+    }
     private void picKRandQues(){
         Random rand = new Random();
         int QuesNum = rand.nextInt(0,questions.length);

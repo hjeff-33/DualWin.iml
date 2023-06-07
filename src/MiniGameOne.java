@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MiniGameOne {
     private JPanel GameMiniPanel;
@@ -10,7 +12,12 @@ public class MiniGameOne {
     private boolean green = false;
     public static void Mini1Setup(){
         JFrame inputFrame = new JFrame("Input");
-        inputFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        inputFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                inputFrame.setVisible(false); // Set frame to invisible when closing
+            }
+        });
         inputFrame.setContentPane(new MiniGameOne().GameMiniPanel);
         inputFrame.setSize(720, 720);
         inputFrame.setVisible(true);
