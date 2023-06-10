@@ -10,65 +10,81 @@ public class Application {
     private JButton addAnotherPlayerButton;
     private JTextField NAME_ENTER;
     private JLabel NAMELABEL;
-    static String[] PLAYERS = new String[1];
-    int PLAYERINDEX = 0;
-    private String[] GrowArray (String[] PLAYERS){
-        String[] tmp = new String[PLAYERS.length+1];
-        for(int i = 0; i<PLAYERS.length; i++){
+    static String[] PLAYERS = new String[1]; // Array to store player names
+    int PLAYERINDEX = 0; // Index to keep track of the current player position
+
+    // Copies an array and grows it by one to add an extra spot for a player.
+    // This is done so the length could be updated and used when determining the number of players playing.
+    private String[] GrowArray(String[] PLAYERS) {
+        String[] tmp = new String[PLAYERS.length + 1];
+        for (int i = 0; i < PLAYERS.length; i++) {
             tmp[i] = PLAYERS[i];
         }
         return tmp;
-    }//Copys an array and grows it by one to add an extra spot for a player. I did this so the length could be updated and used when determining the number of players playing.
+    }
+
     public Application() {
-        addAnotherPlayerButton.addActionListener(new ActionListener() {// adds a players name to the array which will be grown by one.
+        addAnotherPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(PLAYERS.length<3) {
-                    PLAYERS = GrowArray(PLAYERS);// calls grow array function
-                    PLAYERS[PLAYERINDEX] = NAME_ENTER.getText();// sets newe array spot to players name
-                    PLAYERINDEX++;// increase index so new player can be added to a new spot.
-                    NAME_ENTER.setText("");// adds  the players name to an array when called
-                }else{
-                    JOptionPane.showMessageDialog(null, "YOU CAN PLAY WITH FOUR PLAYERS"+"\nPRESS PLAY GAME");// error message if they tey to input to many players.
+                if (PLAYERS.length < 3) {
+                    PLAYERS = GrowArray(PLAYERS); // Grow the array to accommodate another player
+                    PLAYERS[PLAYERINDEX] = NAME_ENTER.getText(); // Set the new array spot to the player's name
+                    PLAYERINDEX++; // Increase the index to add the new player to a new spot
+                    NAME_ENTER.setText(""); // Clear the input field for the next player's name
+                } else {
+                    JOptionPane.showMessageDialog(null, "YOU CAN PLAY WITH FOUR PLAYERS" + "\nPRESS PLAY GAME");
+                    // Show an error message if they try to input too many players
                 }
             }
         });
+
         playGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (PLAYERINDEX != 0) {
-                    PLAYERS[PLAYERINDEX] = NAME_ENTER.getText();// adds last player to the array
+                    PLAYERS[PLAYERINDEX] = NAME_ENTER.getText(); // Add the last player to the array
                     PLAYERINDEX++;
-                    JFrame inputFrame = (JFrame) SwingUtilities.getWindowAncestor(viewIntro);// sets input screen to a disposable object.
-                    inputFrame.dispose();// disposes of the input screen
-                    Board.ShowGame();// calls funtion to open the actual board game.
+                    JFrame inputFrame = (JFrame) SwingUtilities.getWindowAncestor(viewIntro);
+                    // Get the parent JFrame (inputFrame) of the viewIntro panel
+                    // (Assuming viewIntro is added to a JFrame somewhere up the hierarchy)
+                    inputFrame.dispose(); // Dispose of the input screen
+                    Board.ShowGame(); // Call function to open the actual board game
                 } else {
-                    JOptionPane.showMessageDialog(null, "YOU NEED AT LEAST TWO PLAYER TO PLAY");// error message if there are less than two players.
+                    JOptionPane.showMessageDialog(null, "YOU NEED AT LEAST TWO PLAYERS");
+                    // Show an error message if there are less than two players
                 }
             }
         });
+
         NAME_ENTER.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) {// same program as the Add Player button, but it just binds it to the input button for ease of use
+            public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
-                if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                    if(PLAYERINDEX<3) {
-                        PLAYERS = GrowArray(PLAYERS);
-                        PLAYERS[PLAYERINDEX] = NAME_ENTER.getText();
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (PLAYERINDEX < 3) {
+                        PLAYERS = GrowArray(PLAYERS); // Grow the array  another player
+                        PLAYERS[PLAYERINDEX] = NAME_ENTER.getText(); // Set the new array spot to the player's name
                         PLAYERINDEX++;
-                        NAME_ENTER.setText("");// adds  the players name to an array when called
-                    }else{
-                        JOptionPane.showMessageDialog(null, "YOU CAN PLAY WITH FOUR PLAYERS"+"\nPRESS PLAY GAME");
+                        NAME_ENTER.setText(""); // Clear the input field for the next player's name
+                    } else {
+                        JOptionPane.showMessageDialog(null, "YOU CAN PLAY WITH FOUR PLAYERS" + "\nPRESS PLAY GAME");
+                        // Show an error message if they try to input too many players
                     }
                 }
             }
         });
     }
-    public static void main(String[] args) { // sets up and opens the input screen.
-        JFrame inputFrame = new JFrame("Input");
+
+    public static void main(String[] args) {
+        JFrame inputFrame = new JFrame("Input"); // Create a new JFrame
         inputFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        // Set the default close operation to exit the application when the frame is closed
+
         inputFrame.setContentPane(new Application().viewIntro);
-        inputFrame.setSize(190, 170);
-        inputFrame.setVisible(true);
+        // Set the content pane of the frame to the viewIntro panel of the Application class
+
+        inputFrame.setSize(190, 170); // Set the size of the frame
+        inputFrame.setVisible(true); // Make the frame visible
     }
 }

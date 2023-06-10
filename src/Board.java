@@ -1,9 +1,12 @@
 import javax.swing.*;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Random;
+import static java.awt.Toolkit.getDefaultToolkit;
+
 public class Board {
     private JPanel ViewBoard;
     private JButton Start;
@@ -32,6 +35,7 @@ public class Board {
     public  JLabel Player4;
     private JButton R2C1;
     private JLabel Turn;
+    private JLabel iMAGE;
     boolean alreadyExecuted = false;
     int SnakeStart=0;
     int SnakeEnd=0;
@@ -59,7 +63,7 @@ public class Board {
         Start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!alreadyExecuted) {
+                if(!alreadyExecuted) {//only start once
                     PlayGameSetUp();
                     alreadyExecuted = true;
                 }
@@ -68,43 +72,45 @@ public class Board {
         rollDiceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Random rand = new Random();
-                roll = rand.nextInt(1,7);
-                rollDiceButton.setText(String.valueOf(roll));
-                rounds++;
-                if(rounds>Application.PLAYERS.length){
-                    rounds = 1;
+                if (alreadyExecuted) {
+                    Random rand = new Random();
+                    roll = rand.nextInt(1, 7);//rool random value
+                    rollDiceButton.setText(String.valueOf(roll));
+                    rounds++;
+                    if (rounds > Application.PLAYERS.length) {//resets turns if exceeds the number of players
+                        rounds = 1;
+                    }
+                    if (rounds == 1) {//sets turns and roll text
+                        Turn.setText("Player 1 Turn");
+                        PlayerOneTurn = true;
+                        PlayerTwoTurn = false;
+                        PlayerThreeTurn = false;
+                        PlayerFourTurn = false;
+                    }
+                    if (rounds == 2) {//sets turns and roll text
+                        Turn.setText("Player 2 Turn");
+                        PlayerOneTurn = false;
+                        PlayerTwoTurn = true;
+                        PlayerThreeTurn = false;
+                        PlayerFourTurn = false;
+                    }
+                    if (rounds == 3) {//sets turns and roll text
+                        Turn.setText("Player 3 Turn");
+                        PlayerOneTurn = false;
+                        PlayerTwoTurn = false;
+                        PlayerThreeTurn = true;
+                        PlayerFourTurn = false;
+                    }
+                    if (rounds == 4) {//sets turns and roll text
+                        Turn.setText("Player 4 Turn");
+                        PlayerOneTurn = false;
+                        PlayerTwoTurn = false;
+                        PlayerThreeTurn = false;
+                        PlayerFourTurn = true;
+                    }
+                    ResetText();
+                    PlayGame();
                 }
-                if(rounds == 1){
-                    Turn.setText("Player 1 Turn");
-                    PlayerOneTurn = true;
-                    PlayerTwoTurn = false;
-                    PlayerThreeTurn = false;
-                    PlayerFourTurn = false;
-                }
-                if(rounds == 2){
-                    Turn.setText("Player 2 Turn");
-                    PlayerOneTurn = false;
-                    PlayerTwoTurn = true;
-                    PlayerThreeTurn = false;
-                    PlayerFourTurn = false;
-                }
-                if(rounds == 3){
-                    Turn.setText("Player 3 Turn");
-                    PlayerOneTurn = false;
-                    PlayerTwoTurn = false;
-                    PlayerThreeTurn = true;
-                    PlayerFourTurn = false;
-                }
-                if(rounds == 4){
-                    Turn.setText("Player 4 Turn");
-                    PlayerOneTurn = false;
-                    PlayerTwoTurn = false;
-                    PlayerThreeTurn = false;
-                    PlayerFourTurn = true;
-                }
-                ResetText();
-                PlayGame();
             }
         });
     }
@@ -119,7 +125,7 @@ public class Board {
     public void PlayGameSetUp(){
         Random rand = new Random();
         boolean ValuesUnique;
-        do {
+        do {//Sets Random Values for uniques squares
             SnakeStart = rand.nextInt(1, LOCATION.length - 3);
             SnakeEnd = rand.nextInt(SnakeStart + 1, LOCATION.length - 2);
             SnakeStart1 = rand.nextInt(1, LOCATION.length - 3);
@@ -131,7 +137,7 @@ public class Board {
             MiniGame1Spot = rand.nextInt(1,LOCATION.length-1);
             MiniGame2Spot = rand.nextInt(1,LOCATION.length-1);
 
-            ValuesUnique = (SnakeStart != SnakeEnd) && (SnakeStart1 != SnakeEnd1) && (LadderStart != LadderEnd) && (LadderStart1 != LadderEnd1)
+            ValuesUnique = (SnakeStart != SnakeEnd) && (SnakeStart1 != SnakeEnd1) && (LadderStart != LadderEnd) && (LadderStart1 != LadderEnd1)//checks if all values are unique
                     && (SnakeStart != SnakeStart1) && (SnakeStart != SnakeEnd1) && (SnakeEnd != SnakeStart1) && (SnakeEnd != SnakeEnd1)
                     && (LadderStart != SnakeStart) && (LadderStart != SnakeEnd) && (LadderStart != SnakeStart1) && (LadderStart != SnakeEnd1) && (LadderStart != LadderStart1) && (LadderStart != LadderEnd) && (LadderStart != LadderEnd1)
                     && (LadderEnd != SnakeStart) && (LadderEnd != SnakeEnd) && (LadderEnd != SnakeStart1) && (LadderEnd != SnakeEnd1) && (LadderEnd != LadderStart1) && (LadderEnd != LadderEnd1)
@@ -149,75 +155,72 @@ public class Board {
 
         } while (!ValuesUnique);
 
-        LOCATION[SnakeStart].setBackground(Color.GREEN);
+        LOCATION[SnakeStart].setBackground(Color.GREEN);//Sets up first snake
         LOCATION[SnakeEnd].setBackground(Color.GREEN);
         LOCATION[SnakeStart].setText("Snake");
         LOCATION[SnakeEnd].setText("Snake");
 
-        LOCATION[SnakeStart1].setBackground(Color.RED);
+        LOCATION[SnakeStart1].setBackground(Color.RED);//Sets up second snake
         LOCATION[SnakeEnd1].setBackground(Color.RED);
         LOCATION[SnakeStart1].setText("Snake");
         LOCATION[SnakeEnd1].setText("Snake");
 
-        LOCATION[LadderStart].setBackground(Color.YELLOW);
+        LOCATION[LadderStart].setBackground(Color.YELLOW);//Sets up first Ladder
         LOCATION[LadderEnd].setBackground(Color.YELLOW);
         LOCATION[LadderStart].setText("Ladder");
         LOCATION[LadderEnd].setText("Ladder");
 
-        LOCATION[LadderStart1].setBackground(Color.BLUE);
+        LOCATION[LadderStart1].setBackground(Color.BLUE);//Sets up second ladder
         LOCATION[LadderEnd1].setBackground(Color.BLUE);
         LOCATION[LadderStart1].setText("Ladder");
         LOCATION[LadderEnd1].setText("Ladder");
 
-        LOCATION[MiniGame1Spot].setBackground(Color.MAGENTA);
+        LOCATION[MiniGame1Spot].setBackground(Color.MAGENTA);//Sets Mini-games
         LOCATION[MiniGame2Spot].setBackground(Color.MAGENTA);
         LOCATION[MiniGame1Spot].setText("Game");
         LOCATION[MiniGame2Spot].setText("Game");
 
-        if(Application.PLAYERS.length==2){
+        if(Application.PLAYERS.length==2){//sets up label if 2 players
             Player1.setText("");
             Player2.setText(Application.PLAYERS[0]);
             Player3.setText(Application.PLAYERS[1]);
             Player4.setText("");
-            LOCATION[0].setText(Application.PLAYERS[0]+Application.PLAYERS[1]);
+            LOCATION[0].setText(Application.PLAYERS[1]);
         }
-        if(Application.PLAYERS.length==3){
+        if(Application.PLAYERS.length==3){//sets up label if 3 players
             Player1.setText(Application.PLAYERS[0]);
             Player2.setText(Application.PLAYERS[1]);
             Player3.setText(Application.PLAYERS[2]);
             Player4.setText("");
-            LOCATION[0].setText(Application.PLAYERS[0]+Application.PLAYERS[1]+Application.PLAYERS[2]);
+            LOCATION[0].setText(Application.PLAYERS[1]+Application.PLAYERS[2]);
         }
-        if(Application.PLAYERS.length==4){
+        if(Application.PLAYERS.length==4){//sets up label if 4 players
             Player1.setText(Application.PLAYERS[0]);
             Player2.setText(Application.PLAYERS[1]);
             Player3.setText(Application.PLAYERS[2]);
             Player4.setText(Application.PLAYERS[3]);
-            LOCATION[0].setText(Application.PLAYERS[0]+Application.PLAYERS[1]+Application.PLAYERS[2]+Application.PLAYERS[3]);
+            LOCATION[0].setText(Application.PLAYERS[1]+Application.PLAYERS[2]+Application.PLAYERS[3]);
         }
-        Turn.setText("Player 1 Turn");
-        PlayGame();
+        Turn.setText("Player 1 Turn");//sets roll button text
+        PlayGame();//calls play game function
     }
     public void PlayGame(){
-        String Player1PosText = LOCATION[Player1Pos].getText();
-        String Player2PosText = LOCATION[Player2Pos].getText();
-        String Player3PosText = LOCATION[Player3Pos].getText();
-        String Player4PosText = LOCATION[Player4Pos].getText();
         if(PlayerOneTurn){
-            LOCATION[Player1Pos].setText(Player1PosText.replaceAll(Application.PLAYERS[0], ""));
-            LOCATION[Player1Pos].setText(Player1PosText);
             Player1Pos= Player1Pos+roll;
+            if(Player1Pos>=LOCATION.length){
+                JOptionPane.showMessageDialog(null, "Player One Won!!!!!");
+            }
             if(Player1Pos == SnakeStart){
                 Player1Pos = SnakeEnd;
             }
             if(Player1Pos == SnakeStart1){
                 Player1Pos = SnakeEnd1;
             }
-            if(Player1Pos == LadderEnd){
-                Player1Pos = LadderStart;
+            if(Player1Pos == LadderStart){
+                Player1Pos = LadderEnd;
             }
-            if(Player1Pos == LadderEnd1){
-                Player1Pos = LadderStart1;
+            if(Player1Pos == LadderStart1){
+                Player1Pos = LadderEnd1;
             }
             if(Player1Pos == MiniGame1Spot){
                 MiniGameOne.Mini1Setup();
@@ -226,12 +229,10 @@ public class Board {
                 MiniGameTwo.MinitwoSetUp();
             }
             LOCATION[Player1Pos].setText(LOCATION[Player1Pos].getText()+"\n "+Application.PLAYERS[0]);
-        }
+        }//if player one turn moves them to different spots if land on unique square and updates position.
         if(PlayerTwoTurn){
-            LOCATION[Player2Pos].setText(Player2PosText.replaceAll(Application.PLAYERS[1], ""));
-            LOCATION[Player2Pos].setText(Player2PosText);
             Player2Pos= Player2Pos+roll;
-            if(Player2Pos>LOCATION.length){
+            if(Player2Pos>=LOCATION.length){
                 JOptionPane.showMessageDialog(null, "Player Two Won!!!!!");
             }
             if(Player2Pos == SnakeStart){
@@ -240,11 +241,11 @@ public class Board {
             if(Player2Pos == SnakeStart1){
                 Player2Pos = SnakeEnd1;
             }
-            if(Player2Pos == LadderEnd){
-                Player2Pos = LadderStart;
+            if(Player2Pos == LadderStart){
+                Player2Pos = LadderEnd;
             }
-            if(Player2Pos == LadderEnd1){
-                Player2Pos = LadderStart1;
+            if(Player2Pos == LadderStart1){
+                Player2Pos = LadderEnd1;
             }
             if(Player2Pos == MiniGame1Spot){
                 MiniGameOne.Mini1Setup();
@@ -253,12 +254,10 @@ public class Board {
                 MiniGameTwo.MinitwoSetUp();
             }
             LOCATION[Player2Pos].setText(LOCATION[Player2Pos].getText()+"\n "+Application.PLAYERS[1]);
-        }
+        }//if player two turn moves them to different spots if land on unique square and updates position.
         if(PlayerThreeTurn){
-            LOCATION[Player3Pos].setText(Player3PosText.replaceAll(Application.PLAYERS[2], ""));
-            LOCATION[Player3Pos].setText(Player3PosText);
             Player3Pos= Player3Pos+roll;
-            if(Player3Pos>LOCATION.length){
+            if(Player3Pos>=LOCATION.length){
                 JOptionPane.showMessageDialog(null, "Player Three Won!!!!!");
             }
             if(Player3Pos == SnakeStart){
@@ -267,11 +266,11 @@ public class Board {
             if(Player3Pos == SnakeStart1){
                 Player3Pos = SnakeEnd1;
             }
-            if(Player3Pos == LadderEnd){
-                Player3Pos = LadderStart;
+            if(Player3Pos == LadderStart){
+                Player3Pos = LadderEnd;
             }
-            if(Player3Pos == LadderEnd1){
-                Player3Pos = LadderStart1;
+            if(Player3Pos == LadderStart1){
+                Player3Pos = LadderEnd1;
             }
             if(Player3Pos == MiniGame1Spot){
                 MiniGameOne.Mini1Setup();
@@ -280,12 +279,10 @@ public class Board {
                 MiniGameTwo.MinitwoSetUp();
             }
             LOCATION[Player3Pos].setText(LOCATION[Player3Pos].getText()+"\n "+Application.PLAYERS[2]);
-        }
+        }//if player three turn moves them to different spots if land on unique square and updates position.
         if(PlayerFourTurn){
-            LOCATION[Player4Pos].setText(Player4PosText.replaceAll(Application.PLAYERS[3], ""));
-            LOCATION[Player4Pos].setText(Player4PosText);
             Player4Pos= Player4Pos+roll;
-            if(Player4Pos>LOCATION.length){
+            if(Player4Pos>=LOCATION.length){
                 JOptionPane.showMessageDialog(null, "Player Four Won!!!!!");
             }
             if(Player4Pos == SnakeStart){
@@ -294,11 +291,11 @@ public class Board {
             if(Player4Pos == SnakeStart1){
                 Player4Pos = SnakeEnd1;
             }
-            if(Player4Pos == LadderEnd){
-                Player4Pos = LadderStart;
+            if(Player4Pos == LadderStart){
+                Player4Pos = LadderEnd;
             }
-            if(Player4Pos == LadderEnd1){
-                Player4Pos = LadderStart1;
+            if(Player4Pos == LadderStart1){
+                Player4Pos = LadderEnd1;
             }
             if(Player4Pos == MiniGame1Spot){
                 MiniGameOne.Mini1Setup();
@@ -307,14 +304,31 @@ public class Board {
                 MiniGameTwo.MinitwoSetUp();
             }
             LOCATION[Player4Pos].setText(LOCATION[Player4Pos].getText()+"\n "+Application.PLAYERS[3]);
-        }
+        }//if player four turn moves them to different spots if land on unique square and updates position.
     }
     public void ResetText(){
+        int[] protectedPositions = {Player1Pos, Player2Pos, Player3Pos, Player4Pos};
         for(int i = 0; i<LOCATION.length; i++){
-            if(Player1Pos != i || Player2Pos != i || Player3Pos != i || Player4Pos != i){
+            boolean isProtected = false;
+            for (int g = 0; g < protectedPositions.length; g++) {
+                if (i == protectedPositions[g]) {
+                    isProtected = true;
+                    break;
+                }
+            }
+            if (!isProtected) {
                 LOCATION[i].setText(BUTTONTEXT[i]);
             }
+            if(SnakeStart==i||SnakeEnd==i||SnakeStart1==i||SnakeEnd1==i){
+                LOCATION[i].setText("Snake");
+            }
+            if(LadderStart==i||LadderEnd==i||LadderStart1==i||LadderEnd1==i){
+                LOCATION[i].setText("Ladder");
+            }
+            if(MiniGame1Spot==i||MiniGame2Spot==i){
+                LOCATION[i].setText("Game");
+            }
         }
-    }
+    }//resets text on buttons where the player is not located (updates every roll)
 
 }

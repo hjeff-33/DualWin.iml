@@ -28,10 +28,10 @@ public class MiniGameTwo {
     }
     private void picKRandQues(){
         Random rand = new Random();
-        int QuesNum = rand.nextInt(0,questions.length);
+        int QuesNum = rand.nextInt(0,questions.length);//picks random question
         String QuesString = questions[QuesNum];
         QuestionLabel.setText(QuesString);
-        tmp = rand.nextInt(1,4);
+        tmp = rand.nextInt(1,4);//sets which button is correct
         int max = questionsInt[QuesNum]+3;
         int min = questionsInt[QuesNum]-3;
         if(tmp==1){
@@ -39,8 +39,8 @@ public class MiniGameTwo {
         }else {
             int temp;
             do {
-                temp = rand.nextInt(min, max);
-                a.setText(String.valueOf(temp));
+                temp = rand.nextInt(min, max);//picks random number
+                a.setText(String.valueOf(temp));//sets button text
             } while (temp == questionsInt[QuesNum]);
         }
         if(tmp==2){
@@ -48,8 +48,8 @@ public class MiniGameTwo {
         }else {
             int temp;
             do {
-                temp = rand.nextInt(min, max);
-                b.setText(String.valueOf(temp));
+                temp = rand.nextInt(min, max);//picks random number
+                b.setText(String.valueOf(temp));//sets button text
             } while (temp == questionsInt[QuesNum]);
         }
         if(tmp==3){
@@ -57,8 +57,8 @@ public class MiniGameTwo {
         }else {
             int temp;
             do {
-                temp = rand.nextInt(min, max);
-                c.setText(String.valueOf(temp));
+                temp = rand.nextInt(min, max);//picks random number
+                c.setText(String.valueOf(temp));//sets button text
             } while (temp == questionsInt[QuesNum]);
         }
     }
@@ -71,7 +71,7 @@ public class MiniGameTwo {
         });
         a.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {//if click the correct button give response
                 if(tmp==1){
                     JOptionPane.showMessageDialog(null, "Correct");
                 }else{
@@ -81,7 +81,7 @@ public class MiniGameTwo {
         });
         b.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {//if click the correct button give response
                 if(tmp==2){
                     JOptionPane.showMessageDialog(null, "Correct");
                 }else{
@@ -91,7 +91,7 @@ public class MiniGameTwo {
         });
         c.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {//if click the correct button give response
                 if(tmp==3){
                     JOptionPane.showMessageDialog(null, "Correct");
                 }else{
